@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Resume | Sai Teja</title>
+    <title>portfolio | Sai Teja Mashetti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@
 
     <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold text-gray-800">Sai Teja</div>
+            <div class="text-2xl font-bold text-gray-800">Sai Teja Mashetti</div>
             <div class="hidden md:flex space-x-8">
                 <a href="#summary" class="text-gray-600 hover:text-gray-900 transition">Summary</a>
                 <a href="#experience" class="text-gray-600 hover:text-gray-900 transition">Experience</a>
@@ -152,10 +152,14 @@
                 My formal education provided the foundation for my engineering career, complemented by continuous learning and professional certifications.
             </p>
             <div class="inline-block bg-white p-8 rounded-lg shadow-md">
-                <h3 class="text-xl font-bold text-gray-800">Bachelor's in Electronics and Communications Engineering</h3>
-                <p class="text-gray-600 mt-1">VNR VJIET | 2012 – 2016</p>
+                 <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <img src="images/sriindu.png" alt="Sri Indu Logo" class="w-8 h-8 inline-block align-middle object-contain"> Bachelor's in Electronics and Communications Engineering
+                </h3>
+                <p class="text-gray-600 mt-1">Sri Indu Institute of Engineering and Technology | 2012 – 2016</p>
                  <hr class="my-4">
-                <h3 class="text-xl font-bold text-gray-800">Microsoft Certified: Azure Fundamentals (AZ-900)</h3>
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <img src="images/az900logo.png" alt="Azure Logo" class="w-8 h-8 inline-block align-middle object-contain"> Microsoft Certified: Azure Fundamentals (AZ-900)
+                </h3>
                 <p class="text-600 mt-1">Microsoft</p>
             </div>
         </section>
@@ -166,6 +170,9 @@
         <div class="container mx-auto px-6 py-8 text-center">
             <p class="text-2xl font-bold mb-2">Get in Touch</p>
             <p>saiteja4747@outlook.com | +91 8099804747</p>
+            <p class="mt-2">
+                <a href="https://www.linkedin.com/in/saiteja4747" target="_blank" class="text-blue-300 hover:text-blue-500 underline">LinkedIn Profile</a>
+            </p>
         </div>
     </footer>
 
@@ -187,14 +194,15 @@
             const experienceData = [
                 {
                     id: 0,
-                    company: 'Micron Technology',
+                    company: 'Micron Technology (via TCS)',
                     logo: 'images/micronlogo.png',
                     role: 'Individual Contributor',
                     dates: 'Aug 2024 – Present',
                     details: [
                         'Engineered and maintained internal C++ corporate libraries and applications, significantly enhancing enterprise infrastructure and automation.',
                         'Developed <strong>procman</strong>, a C++ service that monitors and controls targeted processes via robust web APIs and a web application.',
-                        'Created <strong>MTLogon</strong>, a C# application that automates user environment setup on AD-joined devices at login, streamlining the onboarding process like setting up the device network drives and environment.'
+                        'Created <strong>MTLogon</strong>, a C# application that automates user environment setup on AD-joined devices at login, streamlining the onboarding process like setting up the device network drives and environment.',
+                        'Contributed to the architecture design of new Logon process to set up user environment on AD-joined devices at login.'
                     ]
                 },
                 {
@@ -202,21 +210,50 @@
                     company: 'Microsoft (via TCS)',
                     logo: 'images/microsoftlogo.png',
                     role: 'Technical Lead',
-                    dates: 'Aug 2022 – Aug 2024',
-                    details: [
+                    dates: 'Oct 2022 – July 2024',
+                    jobRoles: [
+                        {
+                            role: 'Technical Lead',
+                            dates: 'Oct 2022 – Jan 2024',
+                            details: [
                         'Led a 15-member team in the <strong>WSD WEC team</strong> as part of the MSRC bug fix program, resolving critical security vulnerabilities using C++ and validated with WTT.',
-                        'Provided <strong>containment engineering support</strong> for the <strong>WSD Shell team</strong>, improving system reliability and reducing customer impact.'
+                        'Worked on CEPAL - A platform Abstraction layer to support <strong>Applications built on Windows Embedded compact to run on Windows 10 IOT core</strong>, enhancing OS performance and security.'
                     ]
+                        },
+                        {
+                            role: 'Software Engineer',
+                            dates: 'Jan 2024 – July 2024',
+                            details: [
+                                'Provided <strong>containment engineering support</strong> for the <strong>WSD Shell team</strong>, improving system reliability and reducing customer impact.',
+                                'Contributed to the development of security features and enhancements for the WSD platform.'
+                            ]
+                        }
+                    ]
+
                 },
                 {
                     id: 2,
                     company: 'NCR Corporation',
                     logo: 'images/ncrlogo.png',
                     role: 'Software Engineer I & II',
-                    dates: 'Aug 2019 – Aug 2022',
-                    details: [
-                        'Integrated and validated various <strong>ATM hardware components</strong> (card readers, ASM, FPR) using the ULYSIS architecture, ensuring adherence to CEN standards for global deployment.',
-                        'Developed core software for <strong>fuel station hardware communication</strong> within the CFR Fuel Team, improving the reliability and performance of automated fueling systems.'
+                    dates: 'Aug 2019 – Oct 2022',
+                    jobRoles: [
+                        {
+                            role: 'Software Engineer II',
+                            dates: 'Feb 2021 – Oct 2022',
+                            details: [
+                                'Developed core software for <strong>fuel station hardware communication</strong> within the CFR Fuel Team, improving the reliability and performance of automated fueling systems.',
+                                'Contributed to Architecture and Design of HydraService - a application used to sync master and slave databases using TCP/IP.'
+                            ]
+                        },
+                        {
+                            role: 'Software Engineer I',
+                            dates: 'Aug 2019 – Feb 2021',
+                            details: [
+                                'Integrated and validated various <strong>ATM hardware components</strong> (card readers, ASM, FPR) using the ULYSIS architecture, ensuring adherence to CEN standards for global deployment.',
+                                'Contributed to the development of Anti skimming solutions for ATMs, enhancing security against fraud attempts.'
+                            ]
+                        }
                     ]
                 },
                 {
@@ -240,6 +277,29 @@
             function updateDetails(id) {
                 const job = experienceData.find(j => j.id === id);
                 if (job) {
+                    let detailsHTML = '';
+                    if (job.jobRoles) {
+                        detailsHTML = job.jobRoles.map(jobRole => `
+                            <div class="mb-6">
+                                <h3 class="text-xl font-bold text-gray-800">${jobRole.role}</h3>
+                                <p class="text-sm font-semibold text-gray-600 mb-2">${jobRole.dates}</p>
+                                <ul class="space-y-2 list-disc list-inside text-gray-700">
+                                    ${jobRole.details.map(d => `<li>${d}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `).join('');
+                    } else {
+                        detailsHTML = `
+                            <div class="mb-6">
+                                <h3 class="text-2xl font-bold text-gray-800">${job.role}</h3>
+                                <p class="text-sm font-semibold text-gray-600 mb-2">${job.dates}</p>
+                                <ul class="space-y-2 list-disc list-inside text-gray-700">
+                                    ${job.details.map(d => `<li>${d}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                    
                     experienceDetails.innerHTML = `
                         <div class="flex items-center gap-4 mb-2">
                           <img src="${job.logo}" alt="${job.company} logo" class="w-12 h-12 rounded-full shadow-md object-contain bg-white p-1">
@@ -249,9 +309,7 @@
                           </div>
                         </div>
                         <p class="text-sm text-gray-500 mb-6">${job.dates}</p>
-                        <ul class="space-y-4 list-disc list-inside text-gray-700">
-                            ${job.details.map(d => `<li>${d}</li>`).join('')}
-                        </ul>
+                        ${detailsHTML}
                     `;
                     
                     document.querySelectorAll('.timeline-item').forEach(item => {
