@@ -188,6 +188,7 @@
                 {
                     id: 0,
                     company: 'Micron Technology',
+                    logo: 'images/micronlogo.png',
                     role: 'Individual Contributor',
                     dates: 'Aug 2024 – Present',
                     details: [
@@ -199,17 +200,18 @@
                 {
                     id: 1,
                     company: 'Microsoft (via TCS)',
+                    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
                     role: 'Technical Lead',
                     dates: 'Aug 2022 – Aug 2024',
                     details: [
-                        'Led a 15-member team in the <strong>MSRC bug fix program</strong> for Windows Embedded Compact (WEC) OS, resolving critical security vulnerabilities using C++ and validated using WTT (Windows Test Technology).',
-                        '<strong>Delivered security updates</strong> for WEC (Windows Embedded Compact) OS, ensuring compliance with Microsoft’s stringent release cycles and fortifying the OS against threats.',
-                        'Transitioned to the Windows Servicing and Delivery (WSD) group, where I provided <strong>containment engineering support</strong> for the Shell team, improving system reliability and reducing customer impact.'
+                        'Led a 15-member team in the <strong>WSD WEC team</strong> as part of the MSRC bug fix program, resolving critical security vulnerabilities using C++ and validated with WTT.',
+                        'Provided <strong>containment engineering support</strong> for the <strong>WSD Shell team</strong>, improving system reliability and reducing customer impact.'
                     ]
                 },
                 {
                     id: 2,
                     company: 'NCR Corporation',
+                    logo: 'images/ncr-logo.svg',
                     role: 'Software Engineer I & II',
                     dates: 'Aug 2019 – Aug 2022',
                     details: [
@@ -220,6 +222,7 @@
                 {
                     id: 3,
                     company: 'Digit Secure India Pvt Ltd',
+                    logo: 'images/digit-secure-logo.png',
                     role: 'C++ Developer',
                     dates: 'Feb 2017 – Aug 2019',
                     details: [
@@ -238,8 +241,13 @@
                 const job = experienceData.find(j => j.id === id);
                 if (job) {
                     experienceDetails.innerHTML = `
-                        <h3 class="text-2xl font-bold text-gray-800">${job.role}</h3>
-                        <p class="text-md font-semibold text-gray-600 mb-1">${job.company}</p>
+                        <div class="flex items-center gap-4 mb-2">
+                          <img src="${job.logo}" alt="${job.company} logo" class="w-12 h-12 rounded-full shadow-md object-contain bg-white p-1">
+                          <div>
+                            <h3 class="text-2xl font-bold text-gray-800">${job.role}</h3>
+                            <p class="text-md font-semibold text-gray-600">${job.company}</p>
+                          </div>
+                        </div>
                         <p class="text-sm text-gray-500 mb-6">${job.dates}</p>
                         <ul class="space-y-4 list-disc list-inside text-gray-700">
                             ${job.details.map(d => `<li>${d}</li>`).join('')}
@@ -260,8 +268,13 @@
                 item.className = 'timeline-item relative ml-4 pl-8 pb-8 cursor-pointer text-gray-500 hover:text-gray-800 transition';
                 item.setAttribute('data-id', job.id);
                 item.innerHTML = `
-                    <p class="font-medium">${job.company}</p>
-                    <p class="text-sm">${job.dates}</p>
+                    <div class="flex items-center gap-2">
+                        <img src="${job.logo}" onerror="this.src='https://placehold.co/40x40/f1f5f9/94a3b8?text=N/A'" alt="${job.company} logo" class="w-8 h-8 rounded-full object-contain bg-white p-1">
+                        <div>
+                            <p class="font-medium">${job.company}</p>
+                            <p class="text-sm">${job.dates}</p>
+                        </div>
+                    </div>
                 `;
                 item.addEventListener('click', () => updateDetails(job.id));
                 timelineNav.appendChild(item);
@@ -276,7 +289,7 @@
                     labels: ['C/C++', 'C#', 'Python', 'Perl'],
                     datasets: [{
                         label: 'Years of Experience',
-                        data: [8, 3, 4, 3],
+                        data: [8, 3, 2, 2],
                         backgroundColor: [
                             'rgba(75, 85, 99, 0.7)',
                             'rgba(59, 130, 246, 0.7)',
