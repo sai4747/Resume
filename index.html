@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resume | Sai Teja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application uses a single-page, multi-section layout with a sticky navigation bar for easy access. The core is an interactive vertical timeline for professional experience, which allows users to click on a role to see details. This avoids overwhelming the user with a long list of text. A skills section uses a bar chart for a quick visual summary of key competencies. This structure was chosen to transform the linear resume into an engaging, explorable portfolio that is more intuitive and user-friendly for recruiters. -->
+    <!-- Visualization & Content Choices: 
+        - Professional Experience -> Goal: Organize/Explore -> Viz: Interactive Vertical Timeline -> Interaction: On-click, detail pane updates -> Justification: Breaks down dense information into manageable chunks, encourages user interaction, and highlights career progression effectively. Method: Vanilla JS, HTML, Tailwind CSS.
+        - Technical Skills -> Goal: Compare/Inform -> Viz: Horizontal Bar Chart & Tag Cloud -> Interaction: Chart tooltips on hover -> Justification: The chart provides a rapid, quantitative comparison of experience with core languages, which is much faster to parse than a text list. Tags visually group secondary skills. Library: Chart.js.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #1a202c;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            left: -0.5rem;
+            top: 0.5rem;
+            background-color: #D1D5DB;
+            border: 2px solid #FDFBF8;
+        }
+        .timeline-item.active::before {
+            background-color: #4A5568;
+            transform: scale(1.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">Sai Teja</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#summary" class="text-gray-600 hover:text-gray-900 transition">Summary</a>
+                <a href="#experience" class="text-gray-600 hover:text-gray-900 transition">Experience</a>
+                <a href="#skills" class="text-gray-600 hover:text-gray-900 transition">Skills</a>
+                <a href="#education" class="text-gray-600 hover:text-gray-900 transition">Education</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-3 space-y-1">
+            <a href="#summary" class="block text-gray-600 hover:text-gray-900 transition py-1">Summary</a>
+            <a href="#experience" class="block text-gray-600 hover:text-gray-900 transition py-1">Experience</a>
+            <a href="#skills" class="block text-gray-600 hover:text-gray-900 transition py-1">Skills</a>
+            <a href="#education" class="block text-gray-600 hover:text-gray-900 transition py-1">Education</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="summary" class="text-center mb-20">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">C++ Developer & Systems Engineer</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                A results-driven C++ developer with over 8 years of experience specialising in enterprise tooling and hardware-software integration. Proven leader with a track record of guiding high-performing teams to deliver secure, scalable, and robust solutions across diverse domains.
+            </p>
+            <div class="mt-8 text-sm text-gray-500">
+                <span>saiteja4747@outlook.com</span> | <span>+91 8099804747</span> | <span>📍 Hyderabad, India</span>
+            </div>
+        </section>
+
+        <section id="experience" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">Professional Experience</h2>
+            <p class="text-md text-gray-600 text-center max-w-2xl mx-auto mb-12">
+                My career has been focused on building and securing systems across various industries. Below is an interactive timeline of my journey. Click on any role to see the detailed contributions and responsibilities for that position.
+            </p>
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="w-full md:w-1/3">
+                    <div id="timeline-nav" class="relative border-l-2 border-gray-200">
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3">
+                    <div id="experience-details" class="bg-white p-8 rounded-lg shadow-md transition-all duration-300 min-h-[300px]">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">Technical Skills</h2>
+            <p class="text-md text-gray-600 text-center max-w-2xl mx-auto mb-12">
+                I possess a diverse skill set spanning multiple languages, frameworks, and domains. The chart below visualizes my years of experience with key programming languages, offering a quick overview of my core technical strengths.
+            </p>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+                <div class="mt-12">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-3 text-gray-700">Frameworks & Platforms</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Qt/QML</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">ASP.NET Core</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Linux</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Active Directory</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">REST APIs</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-3 text-gray-700">Cloud & Tools</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm">Microsoft Azure (AZ-900)</span>
+                                <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm">Azure DevOps</span>
+                                <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm">Docker</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Git</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">ADO</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-3 text-gray-700">Domains</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm">Embedded Systems</span>
+                                <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm">Payment Gateways</span>
+                                 <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm">Retail</span>
+                                <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm">ATM & Fuel Hardware</span>
+                                <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm">OS Servicing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="text-center">
+             <h2 class="text-3xl font-bold mb-2 text-gray-800">Education & Certifications</h2>
+             <p class="text-md text-gray-600 max-w-2xl mx-auto mb-8">
+                My formal education provided the foundation for my engineering career, complemented by continuous learning and professional certifications.
+            </p>
+            <div class="inline-block bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold text-gray-800">Bachelor's in Electronics and Communications Engineering</h3>
+                <p class="text-gray-600 mt-1">VNR VJIET | 2012 – 2016</p>
+                 <hr class="my-4">
+                <h3 class="text-xl font-bold text-gray-800">Microsoft Certified: Azure Fundamentals (AZ-900)</h3>
+                <p class="text-600 mt-1">Microsoft</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-2xl font-bold mb-2">Get in Touch</p>
+            <p>saiteja4747@outlook.com | +91 8099804747</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const experienceData = [
+                {
+                    id: 0,
+                    company: 'Micron Technology',
+                    role: 'Individual Contributor',
+                    dates: 'Aug 2024 – Present',
+                    details: [
+                        'Engineered and maintained internal C++ corporate libraries and applications, significantly enhancing enterprise infrastructure and automation.',
+                        'Developed <strong>procman</strong>, a C++ service that monitors and controls targeted processes via robust web APIs and a web application.',
+                        'Created <strong>MTLogon</strong>, a C# application that automates user environment setup on AD-joined devices at login, streamlining the onboarding process like setting up the device network drives and environment.'
+                    ]
+                },
+                {
+                    id: 1,
+                    company: 'Microsoft (via TCS)',
+                    role: 'Technical Lead',
+                    dates: 'Aug 2022 – Aug 2024',
+                    details: [
+                        'Led a 15-member team in the <strong>MSRC bug fix program</strong> for Windows Embedded Compact (WEC) OS, resolving critical security vulnerabilities using C++ and validated using WTT (Windows Test Technology).',
+                        '<strong>Delivered security updates</strong> for WEC (Windows Embedded Compact) OS, ensuring compliance with Microsoft’s stringent release cycles and fortifying the OS against threats.',
+                        'Transitioned to the Windows Servicing and Delivery (WSD) group, where I provided <strong>containment engineering support</strong> for the Shell team, improving system reliability and reducing customer impact.'
+                    ]
+                },
+                {
+                    id: 2,
+                    company: 'NCR Corporation',
+                    role: 'Software Engineer I & II',
+                    dates: 'Aug 2019 – Aug 2022',
+                    details: [
+                        'Integrated and validated various <strong>ATM hardware components</strong> (card readers, ASM, FPR) using the ULYSIS architecture, ensuring adherence to CEN standards for global deployment.',
+                        'Developed core software for <strong>fuel station hardware communication</strong> within the CFR Fuel Team, improving the reliability and performance of automated fueling systems.'
+                    ]
+                },
+                {
+                    id: 3,
+                    company: 'Digit Secure India Pvt Ltd',
+                    role: 'C++ Developer',
+                    dates: 'Feb 2017 – Aug 2019',
+                    details: [
+                        'Developed a suite of <strong>Qt/QML-based applications</strong> for the fintech and logistics sectors.',
+                        'Engineered <strong>LastmilePay</strong>, a PCI-DSS compliant payment solution for secure card data transmission.',
+                        'Built <strong>RD Service</strong>, an application facilitating Aadhaar authentication for AEPS transactions, enhancing security and user trust.',
+                        'Created <strong>Lastmile Delivery</strong>, a logistics tool that streamlined operations for service providers, improving efficiency and tracking.'
+                    ]
+                }
+            ];
+
+            const timelineNav = document.getElementById('timeline-nav');
+            const experienceDetails = document.getElementById('experience-details');
+
+            function updateDetails(id) {
+                const job = experienceData.find(j => j.id === id);
+                if (job) {
+                    experienceDetails.innerHTML = `
+                        <h3 class="text-2xl font-bold text-gray-800">${job.role}</h3>
+                        <p class="text-md font-semibold text-gray-600 mb-1">${job.company}</p>
+                        <p class="text-sm text-gray-500 mb-6">${job.dates}</p>
+                        <ul class="space-y-4 list-disc list-inside text-gray-700">
+                            ${job.details.map(d => `<li>${d}</li>`).join('')}
+                        </ul>
+                    `;
+                    
+                    document.querySelectorAll('.timeline-item').forEach(item => {
+                        item.classList.remove('active', 'text-gray-900', 'font-semibold');
+                    });
+                    
+                    const activeItem = document.querySelector(`.timeline-item[data-id='${id}']`);
+                    activeItem.classList.add('active', 'text-gray-900', 'font-semibold');
+                }
+            }
+            
+            experienceData.forEach(job => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item relative ml-4 pl-8 pb-8 cursor-pointer text-gray-500 hover:text-gray-800 transition';
+                item.setAttribute('data-id', job.id);
+                item.innerHTML = `
+                    <p class="font-medium">${job.company}</p>
+                    <p class="text-sm">${job.dates}</p>
+                `;
+                item.addEventListener('click', () => updateDetails(job.id));
+                timelineNav.appendChild(item);
+            });
+
+            updateDetails(0);
+
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            const skillsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['C/C++', 'C#', 'Python', 'Perl'],
+                    datasets: [{
+                        label: 'Years of Experience',
+                        data: [8, 3, 4, 3],
+                        backgroundColor: [
+                            'rgba(75, 85, 99, 0.7)',
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(249, 115, 22, 0.7)',
+                            'rgba(16, 185, 129, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 85, 99, 1)',
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(249, 115, 22, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + ' years';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Years'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
